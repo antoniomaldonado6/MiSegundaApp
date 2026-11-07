@@ -1,98 +1,94 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState } from 'react';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+/**
+ * Proyecto: Mi primera aplicación (Segundo proyecto en GitHub)
+ * Autor: Antonio Maldonado
+ * Fecha: 6 de noviembre del 2026
+ */
 
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
+export default function Index() {
+  // Estado para manejar el cambio de texto dinámico
+  const [mensaje, setMensaje] = useState('¡Estoy aprendiendo React Native!');
+
   return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+    <View style={styles.contenedor}>
+      <Text style={styles.titulo}>Mi segunda aplicación</Text>
+      <Text style={styles.mensaje}>{mensaje}</Text>
 
-export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+      {/* Botón interactivo */}
+      <Pressable
+        style={styles.boton}
+        onPress={() => setMensaje('¡Mi primer botón funciona!')}
+      >
+        <Text style={styles.textoBoton}>Púlsame</Text>
+      </Pressable>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
-
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+      {/* Créditos requeridos */}
+      <View style={styles.creditosContenedor}>
+        <Text style={styles.creditosTexto}>Creado por: Antonio Maldonado</Text>
+        <Text style={styles.creditosTexto}>Fecha: 6 de noviembre del 2026</Text>
+        <Text style={styles.githubTexto}>Segundo proyecto en GitHub</Text>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  contenedor: {
     flex: 1,
     justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
     alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
+    padding: 24,
+    backgroundColor: '#eef4ff',
   },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+  titulo: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    color: '#173b75',
+    marginBottom: 18,
   },
-  title: {
+  mensaje: {
+    fontSize: 17,
+    marginBottom: 22,
     textAlign: 'center',
+    color: '#334155',
   },
-  code: {
-    textTransform: 'uppercase',
+  boton: {
+    backgroundColor: '#2563eb',
+    paddingVertical: 13,
+    paddingHorizontal: 25,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3, // Sombra para Android
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+  textoBoton: {
+    color: '#ffffff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  creditosContenedor: {
+    marginTop: 40,
+    padding: 15,
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    alignItems: 'center',
+    width: '100%',
+  },
+  creditosTexto: {
+    fontSize: 14,
+    color: '#475569',
+    fontStyle: 'italic',
+  },
+  githubTexto: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#0f172a',
+    marginTop: 5,
   },
 });
